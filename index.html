@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="style.css">
+    
+  </head>
+  <body>
+    <div class="container" id="root">
+            <p class="errorMessage"v-if="errorMessage">{{errorMessage}}</p>
+            <p class="successMessage" v-if="successMessage">{{successMessage}}</p>
+            <div class="container">
+              <h1>List of users</h1>
+              <button class="add" @click="showingAddModal = true">Add New</button>
+              <div class="clear"></div>
+              <hr>
+              <table class="list">
+                <tr>
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+                <tr v-for="(user,index) in users" :key="index">
+                  <td>{{user.id}}</td>
+                  <td>{{user.username}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.mobile}}</td>
+                  <td><button @click="showingEditModal = true; selectUser(user)">Edit</button></td>
+                  <td><button @click="showingDeleteModal = true; selectUser(user)">Delete</button></td>
+                </tr>
+                
+              </table>
+            </div>
+          
+            <div class="modal" id="addModal" v-if="showingAddModal">
+              <div class="modalContainer">
+                <div class="modalHeading">
+                  <p class="fleft"> Add New User </p>
+                  <button class="fright close" @click="showingAddModal = false">
+                    X
+                  </button>
+                  <div class="clear">					
+                  </div>
+                </div>
+          
+                <div class="modalContent">
+                  <table class="form">
+                    <tr>
+                      <th>
+                        username
+                      </th>
+                      <th> : </th>
+                      <td>
+                        <input type="text" name="" v-model="newUser.username">
+                      </td>
+                    </tr>
+          
+                    <tr>
+                      <th>
+                        email
+                      </th>
+                      <th> : </th>
+                      <td>
+                        <input type="text" name="" v-model="newUser.email">
+                      </td>
+                    </tr>
+          
+                    <tr>
+                      <th>
+                        Mobile
+                      </th>
+                      <th> : </th>
+                      <td>
+                        <input type="text" name="" v-model="newUser.mobile">
+                      </td>
+                    </tr>
+          
+                    <tr>
+                      <th>
+                      </th>
+                      <th> </th>
+                      <td>
+                        <button @click="showingAddModal = false; createData()">Save</button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>			
+              </div>
+            </div>
+          
+          
+            <div class="modal" id="editModal" v-if="showingEditModal">
+              <div class="modalContainer">
+                <div class="modalHeading">
+                  <p class="fleft"> Edit User </p>
+                  <button class="fright close" @click="showingEditModal = false">
+                    X
+                  </button>
+                  <div class="clear">					
+                  </div>
+                </div>
+          
+                <div class="modalContent">
+                  <table class="form">
+                    <tr>
+                      <th>
+                        username
+                      </th>
+                      <th> : </th>
+                      <td>
+                        <input type="text" name="" v-model="clickedUser.username">
+                      </td>
+                    </tr>
+          
+                    <tr>
+                      <th>
+                        email
+                      </th>
+                      <th> : </th>
+                      <td>
+                        <input type="text" name="" v-model="clickedUser.email">
+                      </td>
+                    </tr>
+          
+                    <tr>
+                      <th>
+                        Mobile
+                      </th>
+                      <th> : </th>
+                      <td>
+                        <input type="text" name="" v-model="clickedUser.mobile">
+                      </td>
+                    </tr>
+          
+                    <tr>
+                      <th>
+                      </th>
+                      <th> </th>
+                      <td>
+                        <button @click="showingEditModal = false; updatedata()">Update</button>
+                      </td>
+                    </tr>
+                  </table>
+                </div>			
+              </div>
+            </div>
+          
+          
+            <div class="modal" id="deleteModal" v-if="showingDeleteModal">
+              <div class="modalContainer">
+                <div class="modalHeading">
+                  <p class="fleft"> Are You Sure? </p>
+                  <button class="fright close" @click="showingDeleteModal = false">
+                    X
+                  </button>
+                  <div class="clear">					
+                  </div>
+                </div>
+          
+                <div class="modalContent">
+                  You are going to delete '{{clickedUser.username}}'
+                  <br><br><br>
+          
+                  <button @click="showingDeleteModal = false; deleteData()">Yes</button>
+                  <button @click="showingDeleteModal = false">No</button>
+          
+                </div>			
+              </div>
+            </div>
+
+            <div class="modalContent">
+                <table class="form">
+                  <tr>
+                    <th>
+                      username
+                    </th>
+                    <th> : </th>
+                    <td>
+                      <input type="text" name="" v-model="loginUser.username">
+                    </td>
+                  </tr>
+        
+                  <tr>
+                    <th>
+                      password
+                    </th>
+                    <th> : </th>
+                    <td>
+                      <input type="text" name="" v-model="loginUser.password">
+                    </td>
+                  </tr>
+        
+                  <tr>
+                    <th>
+                    </th>
+                    <th> </th>
+                    <td>
+                      <button @click="loginData()">login</button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+    </div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+     <!-- <script src="axios.js"></script> -->
+    <script src="vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
