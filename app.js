@@ -25,6 +25,7 @@ let app = new Vue({
             axios.get('http://localhost/vuephpcart/api.php?action=read')
             .then(response=>{
                 console.log(response);
+                this.getData();
                 if(response.data.error){
 					app.errorMessage = response.data.message; 
 				} else{
@@ -46,6 +47,7 @@ let app = new Vue({
             axios.post('http://localhost/vuephpcart/api.php?action=create',formData)
             .then(res=>{
                 app.newUser = {username: "", email: "", mobile: ""};
+                this.getData();
 
 				if(res.data.error){
 					app.errorMessage = res.data.message; 
